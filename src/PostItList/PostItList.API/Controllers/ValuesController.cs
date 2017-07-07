@@ -4,20 +4,32 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PostItList.Models;
+using PostItList.API.Context;
 
 namespace PostItList.API.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        private readonly ToDoContext _context;
+
+        public ValuesController(ToDoContext context)
+        {
+            _context = context;
+        }
+
         // GET api/values
         [HttpGet]
         public IEnumerable<ToDoItem> Get()
         {
-            var item1 = new ToDoItem { Title = "Item1" };
-            var item2 = new ToDoItem { Title = "Item2" };
-            var item3 = new ToDoItem { Title = "Item3" };
-            return new[] { item1, item2, item3 };
+            if (_context.Items.Count() == 0)
+            {
+                var item1 = new ToDoItem { Title = "Item1" };
+                var item2 = new ToDoItem { Title = "Item2" };
+                return new[] { item1, item2 };
+            }
+
+            return _context.Items.ToArray();
         }
 
         // GET api/values/5

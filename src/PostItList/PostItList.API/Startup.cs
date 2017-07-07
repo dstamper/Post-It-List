@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PostItList.API.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace PostItList
 {
@@ -29,6 +31,7 @@ namespace PostItList
         {
             // Add framework services.
             services.AddMvc();
+            services.AddDbContext<ToDoContext>(options => options.UseInMemoryDatabase());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
