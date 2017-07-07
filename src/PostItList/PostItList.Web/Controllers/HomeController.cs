@@ -21,10 +21,10 @@ namespace PostItList.Web.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public async Task<IActionResult> About()
         {
             ViewData["Message"] = "Your application description page.";
-            var items = _toDoService.GetAll();
+            var items = await _toDoService.GetAll();
             return View(items);
         }
 

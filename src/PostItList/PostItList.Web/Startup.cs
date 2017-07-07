@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PostItList.Web.Services;
+using PostItList.Web.Config;
 
 namespace PostItList.Web
 {
@@ -30,6 +31,12 @@ namespace PostItList.Web
         {
             // Add framework services.
             services.AddMvc();
+            services.AddOptions();
+            //Credit to Rick Strahl: https://weblog.west-wind.com/posts/2016/may/23/strongly-typed-configuration-settings-in-aspnet-core
+            services.Configure<UserSettings>(Configuration.GetSection("UserSettings"));
+            services.AddSingleton<IConfiguration>(Configuration);
+
+            services.Configure<IToDoService>(Configuration.GetSection("APIUrl"));
             services.AddScoped<IToDoService, ToDoService>();
         }
 

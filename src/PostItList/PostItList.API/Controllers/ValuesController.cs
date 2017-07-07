@@ -12,9 +12,12 @@ namespace PostItList.API.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<ToDoItem> Get()
         {
-            return new string[] { "value1", "value2" };
+            var item1 = new ToDoItem { Title = "Item1" };
+            var item2 = new ToDoItem { Title = "Item2" };
+            var item3 = new ToDoItem { Title = "Item3" };
+            return new[] { item1, item2, item3 };
         }
 
         // GET api/values/5
