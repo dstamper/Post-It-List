@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PostItList.Models;
 using PostItList.API.Context;
+using Newtonsoft.Json;
 
 namespace PostItList.API.Controllers
 {
@@ -42,8 +43,11 @@ namespace PostItList.API.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]ToDoItem item)
         {
+            _context.Items.Add(item);
+            _context.SaveChanges();
+            
         }
 
         // PUT api/values/5

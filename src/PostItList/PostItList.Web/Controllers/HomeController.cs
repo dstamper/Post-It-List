@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PostItList.Web.Services;
+using System.IO;
+using PostItList.Models;
 
 namespace PostItList.Web.Controllers
 {
@@ -38,6 +40,20 @@ namespace PostItList.Web.Controllers
         public IActionResult Error()
         {
             return View();
+        }
+
+        //Going to need error handling
+        [HttpPost]
+        public async Task<string> AddToDo()
+        {
+            using (var reader = new StreamReader(Request.Body))
+            {
+                var title = reader.ReadToEnd();
+                var item = new ToDoItem { Title = title };
+                //catch the bool later
+                await _toDoService.Add(item);
+                return "Success";
+            }
         }
     }
 }

@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using PostItList.Web.Config;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace PostItList.Web.Services
 {
@@ -19,9 +21,18 @@ namespace PostItList.Web.Services
             _userSettings = settings.Value;
 
         }
-        public bool Add(ToDoItem item)
+        public async Task<bool> Add(ToDoItem item)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_userSettings.APIURL);
+
+                var content = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+                //content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var response = await client.PostAsync("values", content);
+
+                return response.IsSuccessStatusCode;
+            }
         }
 
         public async Task<IEnumerable<ToDoItem>> GetAll()

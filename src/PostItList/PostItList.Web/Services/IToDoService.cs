@@ -8,7 +8,7 @@ namespace PostItList.Web.Services
 {
     public interface IToDoService
     {
-        bool Add(ToDoItem item);
+        Task<bool> Add(ToDoItem item);
         Task<IEnumerable<ToDoItem>> GetAll();
     }
 }
