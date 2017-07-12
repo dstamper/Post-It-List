@@ -1,15 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostItList.API", "PostItList.API\PostItList.API.csproj", "{A2C283AC-4F39-48B2-A2C0-9DE7450DFD79}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C64C41F1-8FA4-407B-AE05-076CCC5C7681} = {C64C41F1-8FA4-407B-AE05-076CCC5C7681}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostItList.Web", "PostItList.Web\PostItList.Web.csproj", "{C64C41F1-8FA4-407B-AE05-076CCC5C7681}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostItList.Web", "PostItList.Web\PostItList.Web.csproj", "{C64C41F1-8FA4-407B-AE05-076CCC5C7681}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostItList.Models", "PostItList.Models\PostItList.Models.csproj", "{57CAE580-8F5C-4022-A894-4E734E2833EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostItList.Models", "PostItList.Models\PostItList.Models.csproj", "{57CAE580-8F5C-4022-A894-4E734E2833EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostItList.Web.Test", "PostItList.Web.Test\PostItList.Web.Test.csproj", "{FAF28D81-E991-47A7-A0F2-99A15634DA75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostItList.Web.Test", "PostItList.Web.Test\PostItList.Web.Test.csproj", "{FAF28D81-E991-47A7-A0F2-99A15634DA75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
