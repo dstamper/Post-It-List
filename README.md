@@ -4,6 +4,7 @@ Open source productivity web app. A simple .NET Core implementation of a to-do-l
 * Persistance - tasks saved in a database hosted on Azure.
 * Functionality done with an API, so a mobile app could easily be developed.
 * Future stretch goals for the product include API authorization, and syncing with Google.
+
 Copyright (c) 2017 David Stamper, Ashton Hunger, Jonathan Jensen
 
 
