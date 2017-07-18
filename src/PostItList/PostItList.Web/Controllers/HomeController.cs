@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using PostItList.Web.Services;
 using System.IO;
 using PostItList.Models;
+using Newtonsoft.Json;
 
 namespace PostItList.Web.Controllers
 {
@@ -23,11 +24,10 @@ namespace PostItList.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> About()
+        public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
-            var items = await _toDoService.GetAll();
-            return View(items);
+            return View();
         }
 
         public IActionResult Contact()
@@ -35,6 +35,13 @@ namespace PostItList.Web.Controllers
             ViewData["Message"] = "Your contact page.";
 
             return View();
+        }
+
+        public async Task<IActionResult> List()
+        {
+            var items = await _toDoService.GetAll();
+            return View(items);
+
         }
 
         public IActionResult Error()
@@ -55,5 +62,19 @@ namespace PostItList.Web.Controllers
                 return "Success";
             }
         }
+
+        //[HttpPut]
+        //public async Task<string> Edit()
+        //{
+        //    using (var reader = new StreamReader(Request.Body))
+        //    {
+        //        var json = reader.ReadToEnd();
+        //        var item = JsonConvert.DeserializeObject<IEnumerable<ToDoItem>>(json);
+
+
+        //    }
+        //}
+
+
     }
 }

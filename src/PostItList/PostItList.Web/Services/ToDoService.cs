@@ -35,6 +35,21 @@ namespace PostItList.Web.Services
             }
         }
 
+        public Task<bool> Delete(ToDoItem item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Edit(ToDoItem item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ToDoItem> Get(string title)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<ToDoItem>> GetAll()
         {
             using (var client = new HttpClient())

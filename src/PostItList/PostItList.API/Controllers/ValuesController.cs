@@ -33,27 +33,58 @@ namespace PostItList.API.Controllers
             return _context.Items.ToArray();
         }
 
-        // GET api/values/5
+        // GET api/values/title
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ToDoItem Get(string id)
         {
-            var item = new ToDoItem { Title = "sdfsdf"};
-            return item.Title;
+            var item = _context.Items.Find(id);
+
+            if(item != null)
+            {
+                return item;
+            }
+
+            return null;
         }
 
         // POST api/values
         [HttpPost]
         public void Post([FromBody]ToDoItem item)
         {
-            _context.Items.Add(item);
-            _context.SaveChanges();
+            //TODO
+            //This is currently checking to see if the item is in the DB
+            //and throwing the request out if so to avoid duplicate keys
+            //POST is not idempotent, so this will need to be removed once IDs are assigned
+            if (_context.Items.Find(item.Title) == null)
+            {
+                _context.Items.Add(item);
+                _context.SaveChanges();
+
+            }
+            
             
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(string id, [FromBody]ToDoItem item)
         {
+            var dbItem = _context.Items.Find(item.Title);
+            if(dbItem != null)
+            {
+                dbItem.Completed = item.Completed;
+                dbItem.DueDate = item.DueDate;
+
+                //TODO
+                //swap these once ID is the key
+                dbItem.Id = item.Id;
+                //dbItem.Title = item.Title;
+                _context.SaveChanges();
+            }
+            else
+            {
+                //ToDoItem isn't in the database
+            }
         }
 
         // DELETE api/values/5

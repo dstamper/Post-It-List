@@ -8,6 +8,11 @@ namespace PostItList.Models
     {
         [Key]
         public string Title { get; set; }
+        public Guid Id { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime DueDate { get; set; }
+        public bool Completed { get; set; }
+
 
     }
 }
