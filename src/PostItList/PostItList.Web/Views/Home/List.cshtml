@@ -6,10 +6,19 @@
 <h3>@ViewData["Message"]</h3>
 
 <p>Use this area to provide additional information.</p>
+<style>
+    .custom{
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size:25px;
+    }
+</style>
 @foreach (var item in Model)
 {
-    <p>@item.Title</p>
-
+    <div class="well">
+    <p class="custom" >@item.Title <button type="button" class="btn" style="float:right" >Edit</button>
+        <button type="button" class="btn" style="float:right">Delete</button>
+    </p>
+        </div>
 }
 
 <div class="container">
@@ -55,7 +64,9 @@
             $('.post-input').keypress(function (e) {
                 if (e.which == 13) {
                     addItem();
+                    
                 }
+
             });
         });
     </script>
