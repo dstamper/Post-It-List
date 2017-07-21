@@ -53,7 +53,7 @@ namespace PostItList.Web.Test
             var items = await service.GetAll();
 
             // assert
-            Assert.False(result, "Adding null was successful, but shouldn't be.");
+            Assert.NotEqual(result, default(Guid));
             Assert.DoesNotContain(null, items);
         }
         [Fact]

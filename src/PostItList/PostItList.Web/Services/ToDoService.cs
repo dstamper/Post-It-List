@@ -21,7 +21,7 @@ namespace PostItList.Web.Services
             _userSettings = settings.Value;
 
         }
-        public async Task<bool> Add(ToDoItem item)
+        public async Task<Guid> Add(ToDoItem item)
         {
             using (var client = new HttpClient())
             {
@@ -30,8 +30,10 @@ namespace PostItList.Web.Services
                 var content = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
                 //content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 var response = await client.PostAsync("values", content);
+                var json = await response.Content.ReadAsStringAsync();
+                var id = JsonConvert.DeserializeObject<Guid>(json);
+                return id;
 
-                return response.IsSuccessStatusCode;
             }
         }
 
@@ -58,6 +60,11 @@ namespace PostItList.Web.Services
                 var response = await client.GetAsync("values");
                 var json = await response.Content.ReadAsStringAsync();
                 var items = JsonConvert.DeserializeObject<IEnumerable<ToDoItem>>(json);
+
+                if (items == null)
+                {
+                    return Enumerable.Empty<ToDoItem>();
+                }
                 return items;
             }
         }
