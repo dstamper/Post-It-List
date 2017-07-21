@@ -6,8 +6,8 @@ namespace PostItList.Models
 {
     public class ToDoItem
     {
-        [Key]
         public string Title { get; set; }
+        [Key]
         public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime DueDate { get; set; }
