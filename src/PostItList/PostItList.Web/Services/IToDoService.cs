@@ -13,7 +13,6 @@ namespace PostItList.Web.Services
         Task<IEnumerable<ToDoItem>> GetAll();
         Task<bool> Edit(ToDoItem item);
         Task<bool> Delete(ToDoItem item);
-        Task<ToDoItem> Get(string title);
         
     }
 }

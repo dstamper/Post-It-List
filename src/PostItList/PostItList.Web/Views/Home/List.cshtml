@@ -48,10 +48,12 @@
                 $.post({
                     url: 'AddToDo',
                     success: function () {
-                        console.log("Javascript addtodo success");
+                        //Remove in production
+                        console.log(arguments);
                     },
                     error: function () {
-                        console.log("Javascript addtodo success");
+                        //Remove in production
+                        console.log(arguments);
                     },
                     dataType: 'application/json',
                     data: title

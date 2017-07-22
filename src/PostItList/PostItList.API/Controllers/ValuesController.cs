@@ -69,11 +69,14 @@ namespace PostItList.API.Controllers
                 dbItem.DueDate = item.DueDate;
                 dbItem.Title = item.Title;
                 _context.SaveChanges();
+                //Processed sucessfully no response body needed
+                Response.StatusCode = 204;
             }
             else
             {
                 //ToDoItem isn't in the database
                 //TODO response 
+                Response.StatusCode = 404;
             }
         }
 

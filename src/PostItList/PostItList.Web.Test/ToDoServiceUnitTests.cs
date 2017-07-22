@@ -8,11 +8,14 @@ using Xunit;
 using Moq;
 using PostItList.Models;
 using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace PostItList.Web.Test
 {
     public class ToDoServiceUnitTests : IDisposable
     {
+        //Credit to Tom Dodson https://github.com/t3dodson for help with UnitTesting
+
         private readonly Mock<IOptions<Config.UserSettings>> mockOptions = new Mock<IOptions<Config.UserSettings>>();
         public ToDoServiceUnitTests()
         {
@@ -23,6 +26,7 @@ namespace PostItList.Web.Test
                 {
                     APIURL = "http://fake.com"
                 });
+
         }
         public void Dispose()
         {
@@ -33,7 +37,7 @@ namespace PostItList.Web.Test
         public async void ShouldNotAllowNullToBeReturnedFromGetAll()
         {
             // arrange
-            IToDoService service = new ToDoService(mockOptions.Object);
+            IToDoService service = new ToDoService(mockOptions.Object, new GetAllNullHttpMessageHandler());
 
             // act 
             var items = await service.GetAll();
@@ -46,15 +50,13 @@ namespace PostItList.Web.Test
         public async void ShouldNotAllowNullToBeAdded()
         {
             // arrange
-            IToDoService service = new ToDoService(mockOptions.Object);
+            IToDoService service = new ToDoService(mockOptions.Object, null);
             
             // act 
             var result = await service.Add(null);
-            var items = await service.GetAll();
 
             // assert
-            Assert.NotEqual(result, default(Guid));
-            Assert.DoesNotContain(null, items);
+            Assert.Equal(result, default(Guid));
         }
         [Fact]
         [Trait("Category", "Unit")]
@@ -63,7 +65,7 @@ namespace PostItList.Web.Test
             // TODO refactor code to make this test case possible.
 
             // arrange
-            IToDoService service = new ToDoService(mockOptions.Object);
+            IToDoService service = new ToDoService(mockOptions.Object, null);
 
             var item = new ToDoItem
             {
