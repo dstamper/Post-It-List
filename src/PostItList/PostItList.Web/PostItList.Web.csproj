@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\images\laptop-iphone-coffee-notebook.jpeg" />
+    <None Include="wwwroot\images\code.png" />
   </ItemGroup>
 
 </Project>
