@@ -97,9 +97,6 @@ namespace PostItList.Web.Controllers
                 }
 
                 var serviceResponse = await _toDoService.Edit(item);
-                //TODO
-                //Consider refactoring the ToDoService to directly pass in the status code instead of 
-                //the weird bool going on right now
                 if (serviceResponse)
                 {
                     return StatusCode(200); //OK
@@ -108,6 +105,33 @@ namespace PostItList.Web.Controllers
                 {
                     return StatusCode(500); //Internal Server Error
                 }
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete()
+        {
+            using (var reader = new StreamReader(Request.Body))
+            {
+                var json = reader.ReadToEnd();
+                var item = JsonConvert.DeserializeObject<ToDoItem>(json);
+
+                if(item == null || item.Id == default(Guid))
+                {
+                    return BadRequest(); //400 error bad request
+                }
+
+                var serviceResponse = await _toDoService.Delete(item);
+
+                if (serviceResponse)
+                {
+                    return StatusCode(200); //OK
+                }
+                else
+                {
+                    return StatusCode(500); //Internal Server Error
+                }
+
             }
         }
 

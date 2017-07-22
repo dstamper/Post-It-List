@@ -52,15 +52,13 @@ namespace PostItList.Web.Services
             using (var client = new HttpClient(_handler))
             {
                 client.BaseAddress = new Uri(_userSettings.APIURL);
-                var response = await client.DeleteAsync(item.Id.ToString());
+                var response = await client.DeleteAsync("values/"+item.Id.ToString());
 
                 return response.IsSuccessStatusCode;
             }
 
         }
 
-        //consider refactoring to return actual status code
-        //for cleaner controller
         public async Task<bool> Edit(ToDoItem item)
         {
             using (var client = new HttpClient(_handler))
