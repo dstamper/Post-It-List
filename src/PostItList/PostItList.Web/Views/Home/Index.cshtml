@@ -7,6 +7,10 @@
     html, body {
         background: #545454;
     }
+    nav.navbar {
+        margin-bottom: 0;
+        border-bottom: 0;
+    }
     .primary-font {
         font-family: 'Roboto', sans-serif;
     }
@@ -14,7 +18,8 @@
         font-family: 'Open Sans', sans-serif;
     }
     .splash-container {
-        padding-top: 6rem;
+        padding-top: 50px;
+        position: relative;
     }
     .splash-container > section {
         height: 40rem;
@@ -22,44 +27,133 @@
     }
     .splash-container > section h1 {
         font-family: 'Roboto', sans-serif;
+        font-size: 8rem;
     }
     .splash-container > section p {
         font-family: 'Open Sans', sans-serif;
+        font-size: 2.5rem;
+    }
+    .splash-container > section.first:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-image: url('images/laptop-iphone-coffee-notebook.jpeg');
+        background-size: cover;
+        filter: sepia(100%) blur(10px) brightness(60%);
     }
     .splash-container > section.first {
-        background: #545454;
+        /*background: #545454;*/
+        background: rgba(0, 0, 0, 1);
+        position: relative;
         color: snow;
         text-align: center;
+        overflow: hidden;
     }
     .splash-container > section.first .text-box {
         position: relative;
-        top: 65%;
-        right: 20%;
+        top: 40%;
         transform: translateY(-50%);
-    }
-    .splash-container > section.first .btn-sign-in {
-        position: absolute;
-        top: 13%;
-        right: 4rem;
-    }
-    .splash-container > section.first .glyphicon {
-        color: snow;
-        font-size: 14rem;
-        position: relative;
-        left: 20rem;
     }
     .splash-container > section.second {
         background: #69747C;
         color: snow;
+        position: relative;
+    }
+    .splash-container > section.second .glyphicon {
+        color: snow;
+        font-size: 14rem;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 20rem;
+    }
+    .splash-container > section.second .text-box {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 20rem;
+    }
+    .splash-container > section.second .text-box h1 {
+        font-size: 4rem;
+    }
+    .splash-container > section.second .text-box p {
+        text-align: right;
+    }
+    .splash-container > section.third:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-image: url('images/code.png');
+        background-size: cover;
+        filter: brightness(40%);
+    }
+    .splash-container > section.third:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: #6BAA75;
+        opacity: 0.2;
+        z-index: 1;
     }
     .splash-container > section.third {
-        background: #6BAA75;
+        /*background: #6BAA75;*/
+        position: relative;
+        background: rgba(0, 0, 0, 1);
+        overflow: hidden;
+        color: snow;
+        text-align: center;
+        z-index: 2;
+    }
+    .splash-container > section.third .text-box {
+        position: relative;
+        top: 40%;
+        transform: translateY(-50%);
+        z-index: 2;
     }
     .splash-container > section.fourth {
         background: #84DD63;
+        color: snow;
+        text-align: center;
+        position: relative;
+    }
+    .splash-container > section.fourth .text-box {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 20rem;
+        text-align: left;
+    }
+    .splash-container > section.fourth .text-box h1 {
+        font-size: 4rem;
+    }
+    .splash-container > section.fourth .glyphicon {
+        color: snow;
+        font-size: 14rem;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 20rem;
     }
     .splash-container > section.fifth {
         background: #CBFF4D;
+        position: relative;
+        color: snow;
+        text-align: center;
+        overflow: hidden;
+    }
+    .splash-container > section.fifth .text-box {
+        position: relative;
+        top: 40%;
+        transform: translateY(-50%);
     }
 
 </style>
@@ -69,12 +163,32 @@
         <div class="text-box">
             <h1>Post It List</h1>
             <p>Your one stop shop for keeping track of all of your lists of things to do.</p>
-        </div>
-        <button class="btn btn-primary btn-sign-in">create your first list</button>
-        <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+        </div> 
     </section>
-    <section class="second"></section>
-    <section class="third"></section>
-    <section class="fourth"></section>
-    <section class="fifth"></section>
+    <section class="second">
+        <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+        <div class="text-box">
+            <h1>Keep track of your tasks</h1>
+            <p class="secondary-font">Create, Edit, Delete</p>
+        </div>
+    </section>
+    <section class="third">
+        <div class="text-box">
+            <h1>Built using the latest tech</h1>
+            <p class="secondary-font">ASP.NET Core, Entity Framework, Razor view engine, Bootstrap</p>
+        </div> 
+    </section>
+    <section class="fourth">
+        <div class="text-box">
+            <h1>Future Development</h1>
+            <p class="secondary-font">Permanent database, Multiple users,  Mobile app support</p>
+        </div>
+        <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+    </section>
+    <section class="fifth">
+        <div class="text-box">
+            <h1>MIT License</h1>
+            <p class="secondary-font">Post It List will always be free as in speech.</p>
+        </div>
+    </section>
 </div>
