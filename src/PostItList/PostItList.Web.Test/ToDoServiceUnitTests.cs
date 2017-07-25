@@ -62,15 +62,10 @@ namespace PostItList.Web.Test
         [Trait("Category", "Unit")]
         public async void ShouldIncreaseAllCountByOneWhenCallingAdd()
         {
-            // TODO refactor code to make this test case possible.
-
             // arrange
-            IToDoService service = new ToDoService(mockOptions.Object, null);
+            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreeaseMessageHandler());
 
-            var item = new ToDoItem
-            {
-                Title = "Fix more unit tests."
-            };
+            var item = new ToDoItem();
 
             // act
             var countBefore = (await service.GetAll()).Count();
@@ -79,6 +74,43 @@ namespace PostItList.Web.Test
 
             // assert
             Assert.Equal(countBefore + 1, afterCount);
+        }
+        [Fact]
+        [Trait("Category", "Unit")]
+        public async void ShouldDecreaseAllCountByOneWhenCallingDelete()
+        {
+            // arrange
+            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreeaseMessageHandler());
+
+            var item = new ToDoItem();
+
+            // act
+            await service.Add(item);
+            await service.Add(item);
+            var countBefore = (await service.GetAll()).Count();
+            await service.Delete(item);
+            var afterCount = (await service.GetAll()).Count();
+
+            // assert
+            Assert.Equal(countBefore - 1, afterCount);
+
+        }
+        [Fact]
+        [Trait("Category", "Unit")]
+        public async void ShouldHandleEmptyDelete()
+        {
+            // arrange
+            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreeaseMessageHandler());
+
+            var item = new ToDoItem();
+
+            // act
+            await service.Delete(item);
+            var afterCount = (await service.GetAll()).Count();
+
+            // assert
+            Assert.Equal(0, afterCount);
+
         }
     }
 }
