@@ -9,6 +9,7 @@ using Moq;
 using PostItList.Models;
 using System.Threading.Tasks;
 using System.Net.Http;
+using PostItList.Web.Test.ToDoServiceMocks;
 
 namespace PostItList.Web.Test
 {
@@ -32,6 +33,37 @@ namespace PostItList.Web.Test
         {
             // clean up code here.
         }
+
+        [Fact]
+        [Trait("Category", "Unit")]
+        public async void MultipleAdds()
+        {
+            // arrange
+            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreaseMessageHandler());
+
+            // act 
+            var item = new ToDoItem { Title = "Same Item" };
+            var item1 = await service.Add(item);
+            var item2 = await service.Add(item);
+
+            // assert
+            Assert.NotEqual(item1, item2);
+        }
+
+        [Fact]
+        [Trait("Category", "Unit")]
+        public async void ShouldNotAllowNullInEdit()
+        {
+            // arrange
+            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreaseMessageHandler());
+            
+            // act 
+            var result = await service.Edit(null);
+
+            // assert
+            Assert.Equal(result, false);
+        }
+        
         [Fact]
         [Trait("Category", "Unit")]
         public async void ShouldNotAllowNullToBeReturnedFromGetAll()
@@ -63,7 +95,7 @@ namespace PostItList.Web.Test
         public async void ShouldIncreaseAllCountByOneWhenCallingAdd()
         {
             // arrange
-            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreeaseMessageHandler());
+            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreaseMessageHandler());
 
             var item = new ToDoItem();
 
@@ -80,7 +112,7 @@ namespace PostItList.Web.Test
         public async void ShouldDecreaseAllCountByOneWhenCallingDelete()
         {
             // arrange
-            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreeaseMessageHandler());
+            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreaseMessageHandler());
 
             var item = new ToDoItem();
 
@@ -100,7 +132,7 @@ namespace PostItList.Web.Test
         public async void ShouldHandleEmptyDelete()
         {
             // arrange
-            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreeaseMessageHandler());
+            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreaseMessageHandler());
 
             var item = new ToDoItem();
 

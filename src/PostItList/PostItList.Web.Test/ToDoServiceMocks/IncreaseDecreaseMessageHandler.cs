@@ -10,38 +10,42 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PostItList.Web.Test
+namespace PostItList.Web.Test.ToDoServiceMocks
 {
-    class IncreaseDecreeaseMessageHandler : HttpMessageHandler
+    class IncreaseDecreaseMessageHandler : HttpMessageHandler
     {
         private int count = 0;
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage output, CancellationToken cancellationToken)
         {
-            if(output.Method == HttpMethod.Post)
+            if (output.Method == HttpMethod.Post)
             {
                 count++;
-                var outputContent = new StringContent(JsonConvert.SerializeObject(default(Guid)));
+                var outputContent = new StringContent(JsonConvert.SerializeObject(Guid.NewGuid()));
                 var outputMessage = new HttpResponseMessage();
                 outputMessage.Content = outputContent;
                 return Task.FromResult(outputMessage);
             }
 
-            if(output.Method == HttpMethod.Delete)
+            if (output.Method == HttpMethod.Delete)
             {
-                if(count == 0)
+                if (count == 0)
                 {
                     return Task.FromResult(new HttpResponseMessage());
                 }
                 count--;
 
             }
+            if (output.Method == HttpMethod.Put)
+            {
+                return Task.FromResult(new HttpResponseMessage());
+            }
 
-            if(output.Method == HttpMethod.Get)
+            if (output.Method == HttpMethod.Get)
             {
                 //var outputList = Enumerable.Repeat(new ToDoItem(), count) ?? Enumerable.Empty<ToDoItem>();
                 var outputList = Enumerable.Repeat(new ToDoItem(), count);
                 var outputMessage = new HttpResponseMessage();
-                if( count == 0)
+                if (count == 0)
                 {
                     outputMessage.Content = new StringContent(JsonConvert.SerializeObject(new List<ToDoItem>()), Encoding.UTF8, "application/json");
                 }
