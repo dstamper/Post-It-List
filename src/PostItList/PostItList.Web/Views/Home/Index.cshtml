@@ -7,6 +7,17 @@
     html, body {
         background: #545454;
     }
+    .container, .row {
+        height: 100%;
+    }
+    .row {
+        position: relative;
+    }
+    .row > [class*=col] {
+        transform: translateY(-50%);
+        position: relative;
+        top: 50%;
+    }
     nav.navbar {
         margin-bottom: 0;
         border-bottom: 0;
@@ -42,10 +53,9 @@
         bottom: 0;
         background-image: url('images/laptop-iphone-coffee-notebook.jpeg');
         background-size: cover;
-        filter: sepia(100%) blur(10px) brightness(60%);
+        filter: sepia(100%) blur(10px) brightness(50%);
     }
     .splash-container > section.first {
-        /*background: #545454;*/
         background: rgba(0, 0, 0, 1);
         position: relative;
         color: snow;
@@ -65,16 +75,9 @@
     .splash-container > section.second .glyphicon {
         color: snow;
         font-size: 14rem;
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 20rem;
     }
     .splash-container > section.second .text-box {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        right: 20rem;
+        text-align: right;
     }
     .splash-container > section.second .text-box h1 {
         font-size: 4rem;
@@ -91,7 +94,7 @@
         bottom: 0;
         background-image: url('images/code.png');
         background-size: cover;
-        filter: brightness(40%);
+        filter: brightness(30%);
     }
     .splash-container > section.third:after {
         content: '';
@@ -105,7 +108,6 @@
         z-index: 1;
     }
     .splash-container > section.third {
-        /*background: #6BAA75;*/
         position: relative;
         background: rgba(0, 0, 0, 1);
         overflow: hidden;
@@ -115,7 +117,7 @@
     }
     .splash-container > section.third .text-box {
         position: relative;
-        top: 40%;
+        top: 50%;
         transform: translateY(-50%);
         z-index: 2;
     }
@@ -126,10 +128,6 @@
         position: relative;
     }
     .splash-container > section.fourth .text-box {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 20rem;
         text-align: left;
     }
     .splash-container > section.fourth .text-box h1 {
@@ -138,10 +136,28 @@
     .splash-container > section.fourth .glyphicon {
         color: snow;
         font-size: 14rem;
+    }
+    .splash-container > section.fifth:before {
+        content: '';
         position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        right: 20rem;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-image: url('images/sunset.jpeg');
+        background-size: cover;
+        filter: brightness(40%);
+    }
+    .splash-container > section.fifth:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: #CBFF4D;
+        opacity: 0.2;
+        z-index: 1;
     }
     .splash-container > section.fifth {
         background: #CBFF4D;
@@ -152,8 +168,9 @@
     }
     .splash-container > section.fifth .text-box {
         position: relative;
-        top: 40%;
+        top: 50%;
         transform: translateY(-50%);
+        z-index: 2;
     }
 
 </style>
@@ -166,29 +183,45 @@
         </div> 
     </section>
     <section class="second">
-        <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
-        <div class="text-box">
-            <h1>Keep track of your tasks</h1>
-            <p class="secondary-font">Create, Edit, Delete</p>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
+                    <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div class="text-box">
+                        <h1>Keep track of your tasks</h1>
+                        <p>Create, Edit, Delete</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <section class="third">
         <div class="text-box">
             <h1>Built using the latest tech</h1>
-            <p class="secondary-font">ASP.NET Core, Entity Framework, Razor view engine, Bootstrap</p>
+            <p>ASP.NET Core, Entity Framework, Razor view engine, Bootstrap</p>
         </div> 
     </section>
     <section class="fourth">
-        <div class="text-box">
-            <h1>Future Development</h1>
-            <p class="secondary-font">Permanent database, Multiple users,  Mobile app support</p>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div class="text-box">
+                        <h1>Future Development</h1>
+                        <p>Permanent database, Multiple users,  Mobile app support</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
+                    <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+                </div>
+            </div>
         </div>
-        <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
     </section>
     <section class="fifth">
         <div class="text-box">
             <h1>MIT License</h1>
-            <p class="secondary-font">Post It List will always be free as in speech.</p>
+            <p>Post It List will always be free as in speech.</p>
         </div>
     </section>
 </div>
