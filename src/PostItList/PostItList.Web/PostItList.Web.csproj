@@ -21,5 +21,10 @@
   <ItemGroup>
     <ProjectReference Include="..\PostItList.Models\PostItList.Models.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\images\laptop-iphone-coffee-notebook.jpeg" />
+    <None Include="wwwroot\images\code.png" />
+    <None Include="wwwroot\images\sunset.jpeg" />
+  </ItemGroup>
 
 </Project>

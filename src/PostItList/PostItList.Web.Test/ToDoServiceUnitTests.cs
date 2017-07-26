@@ -8,11 +8,15 @@ using Xunit;
 using Moq;
 using PostItList.Models;
 using System.Threading.Tasks;
+using System.Net.Http;
+using PostItList.Web.Test.ToDoServiceMocks;
 
 namespace PostItList.Web.Test
 {
     public class ToDoServiceUnitTests : IDisposable
     {
+        //Credit to Tom Dodson https://github.com/t3dodson for help with UnitTesting
+
         private readonly Mock<IOptions<Config.UserSettings>> mockOptions = new Mock<IOptions<Config.UserSettings>>();
         public ToDoServiceUnitTests()
         {
@@ -23,17 +27,49 @@ namespace PostItList.Web.Test
                 {
                     APIURL = "http://fake.com"
                 });
+
         }
         public void Dispose()
         {
             // clean up code here.
         }
+
+        [Fact]
+        [Trait("Category", "Unit")]
+        public async void MultipleAdds()
+        {
+            // arrange
+            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreaseMessageHandler());
+
+            // act 
+            var item = new ToDoItem { Title = "Same Item" };
+            var item1 = await service.Add(item);
+            var item2 = await service.Add(item);
+
+            // assert
+            Assert.NotEqual(item1, item2);
+        }
+
+        [Fact]
+        [Trait("Category", "Unit")]
+        public async void ShouldNotAllowNullInEdit()
+        {
+            // arrange
+            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreaseMessageHandler());
+            
+            // act 
+            var result = await service.Edit(null);
+
+            // assert
+            Assert.Equal(result, false);
+        }
+        
         [Fact]
         [Trait("Category", "Unit")]
         public async void ShouldNotAllowNullToBeReturnedFromGetAll()
         {
             // arrange
-            IToDoService service = new ToDoService(mockOptions.Object);
+            IToDoService service = new ToDoService(mockOptions.Object, new GetAllNullHttpMessageHandler());
 
             // act 
             var items = await service.GetAll();
@@ -46,29 +82,22 @@ namespace PostItList.Web.Test
         public async void ShouldNotAllowNullToBeAdded()
         {
             // arrange
-            IToDoService service = new ToDoService(mockOptions.Object);
+            IToDoService service = new ToDoService(mockOptions.Object, null);
             
             // act 
             var result = await service.Add(null);
-            var items = await service.GetAll();
 
             // assert
-            Assert.False(result, "Adding null was successful, but shouldn't be.");
-            Assert.DoesNotContain(null, items);
+            Assert.Equal(result, default(Guid));
         }
         [Fact]
         [Trait("Category", "Unit")]
         public async void ShouldIncreaseAllCountByOneWhenCallingAdd()
         {
-            // TODO refactor code to make this test case possible.
-
             // arrange
-            IToDoService service = new ToDoService(mockOptions.Object);
+            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreaseMessageHandler());
 
-            var item = new ToDoItem
-            {
-                Title = "Fix more unit tests."
-            };
+            var item = new ToDoItem();
 
             // act
             var countBefore = (await service.GetAll()).Count();
@@ -77,6 +106,43 @@ namespace PostItList.Web.Test
 
             // assert
             Assert.Equal(countBefore + 1, afterCount);
+        }
+        [Fact]
+        [Trait("Category", "Unit")]
+        public async void ShouldDecreaseAllCountByOneWhenCallingDelete()
+        {
+            // arrange
+            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreaseMessageHandler());
+
+            var item = new ToDoItem();
+
+            // act
+            await service.Add(item);
+            await service.Add(item);
+            var countBefore = (await service.GetAll()).Count();
+            await service.Delete(item);
+            var afterCount = (await service.GetAll()).Count();
+
+            // assert
+            Assert.Equal(countBefore - 1, afterCount);
+
+        }
+        [Fact]
+        [Trait("Category", "Unit")]
+        public async void ShouldHandleEmptyDelete()
+        {
+            // arrange
+            IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreaseMessageHandler());
+
+            var item = new ToDoItem();
+
+            // act
+            await service.Delete(item);
+            var afterCount = (await service.GetAll()).Count();
+
+            // assert
+            Assert.Equal(0, afterCount);
+
         }
     }
 }

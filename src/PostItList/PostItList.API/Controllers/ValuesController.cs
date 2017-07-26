@@ -35,7 +35,7 @@ namespace PostItList.API.Controllers
 
         // GET api/values/title
         [HttpGet("{id}")]
-        public ToDoItem Get(string id)
+        public ToDoItem Get(Guid id)
         {
             var item = _context.Items.Find(id);
 
@@ -49,50 +49,52 @@ namespace PostItList.API.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]ToDoItem item)
+        public Guid Post([FromBody]ToDoItem item)
         {
-            //TODO
-            //This is currently checking to see if the item is in the DB
-            //and throwing the request out if so to avoid duplicate keys
-            //POST is not idempotent, so this will need to be removed once IDs are assigned
-            if (_context.Items.Find(item.Title) == null)
-            {
-                _context.Items.Add(item);
-                _context.SaveChanges();
-
-            }
-            
-            
+            item.Id = Guid.NewGuid();
+            item.CreatedDate = DateTime.Now;
+            _context.Add(item);
+            _context.SaveChanges();
+            return item.Id;
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody]ToDoItem item)
+        public void Put(Guid id, [FromBody]ToDoItem item)
         {
-            var dbItem = _context.Items.Find(item.Title);
+            var dbItem = _context.Items.Find(id);
             if(dbItem != null)
             {
                 dbItem.Completed = item.Completed;
                 dbItem.DueDate = item.DueDate;
-
-                //TODO
-                //swap these once ID is the key
-                dbItem.Id = item.Id;
-                //dbItem.Title = item.Title;
+                dbItem.Title = item.Title;
                 _context.SaveChanges();
+                //Processed sucessfully no response body needed
+                Response.StatusCode = 204;
             }
             else
             {
                 //ToDoItem isn't in the database
+                //TODO response 
+                Response.StatusCode = 404;
             }
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
-            
-
+            var dbItem = _context.Items.Find(id);
+            if(dbItem != null)
+            {
+                _context.Items.Remove(dbItem);
+                _context.SaveChanges();
+            }
+            else
+            {
+                //ToDoItem isn't in the database
+                //TODO response 
+            }
         }
     }
 }

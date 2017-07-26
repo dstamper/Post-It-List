@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PostItList.Web.Services;
 using PostItList.Web.Config;
+using System.Net.Http;
 
 namespace PostItList.Web
 {
@@ -38,6 +39,9 @@ namespace PostItList.Web
 
             services.Configure<IToDoService>(Configuration.GetSection("APIUrl"));
             services.AddScoped<IToDoService, ToDoService>();
+            //dependency injection for UnitTesting
+            services.AddScoped<HttpMessageHandler, HttpClientHandler>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

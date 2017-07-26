@@ -9,11 +9,10 @@ namespace PostItList.Web.Services
     public interface IToDoService
     {
         //todo migrate to ID instead of title
-        Task<bool> Add(ToDoItem item);
+        Task<Guid> Add(ToDoItem item);
         Task<IEnumerable<ToDoItem>> GetAll();
         Task<bool> Edit(ToDoItem item);
         Task<bool> Delete(ToDoItem item);
-        Task<ToDoItem> Get(string title);
         
     }
 }

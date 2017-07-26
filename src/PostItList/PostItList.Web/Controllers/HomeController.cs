@@ -7,6 +7,8 @@ using PostItList.Web.Services;
 using System.IO;
 using PostItList.Models;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
 
 namespace PostItList.Web.Controllers
 {
@@ -51,29 +53,87 @@ namespace PostItList.Web.Controllers
 
         //Going to need error handling
         [HttpPost]
-        public async Task<string> AddToDo()
+        public async Task<IActionResult> AddToDo()
         {
             using (var reader = new StreamReader(Request.Body))
             {
-                var title = reader.ReadToEnd();
-                var item = new ToDoItem { Title = title };
-                //catch the bool later
-                await _toDoService.Add(item);
-                return "Success";
+                var json = reader.ReadToEnd();
+                var item = JsonConvert.DeserializeObject<ToDoItem>(json);
+
+                //client handling
+                if(item.Title == "")
+                {
+                    return BadRequest(); 
+                }
+
+                //if a server error occured, the returned GUID will be the default value
+                //using this to decide returned status code
+                var serviceResponse = await _toDoService.Add(item);
+
+                if(serviceResponse == default(Guid))
+                {
+                    return StatusCode(503); //Service Unavailable
+                }
+                else
+                {
+                    return StatusCode(201); //Created
+                }
             }
         }
 
-        //[HttpPut]
-        //public async Task<string> Edit()
-        //{
-        //    using (var reader = new StreamReader(Request.Body))
-        //    {
-        //        var json = reader.ReadToEnd();
-        //        var item = JsonConvert.DeserializeObject<IEnumerable<ToDoItem>>(json);
+        [HttpPut]
+        public async Task<IActionResult> Edit()
+        {
+            using (var reader = new StreamReader(Request.Body))
+            {
 
+                var json = reader.ReadToEnd();
+                var item = JsonConvert.DeserializeObject<ToDoItem>(json);
 
-        //    }
-        //}
+                //client handling
+                if(item.Title == "")
+                {
+                    return BadRequest();  //400 error bad request
+                }
+
+                var serviceResponse = await _toDoService.Edit(item);
+                if (serviceResponse)
+                {
+                    return StatusCode(200); //OK
+                }
+                else
+                {
+                    return StatusCode(500); //Internal Server Error
+                }
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete()
+        {
+            using (var reader = new StreamReader(Request.Body))
+            {
+                var json = reader.ReadToEnd();
+                var item = JsonConvert.DeserializeObject<ToDoItem>(json);
+
+                if(item == null || item.Id == default(Guid))
+                {
+                    return BadRequest(); //400 error bad request
+                }
+
+                var serviceResponse = await _toDoService.Delete(item);
+
+                if (serviceResponse)
+                {
+                    return StatusCode(200); //OK
+                }
+                else
+                {
+                    return StatusCode(500); //Internal Server Error
+                }
+
+            }
+        }
 
 
     }

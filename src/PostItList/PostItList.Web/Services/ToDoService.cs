@@ -16,49 +16,84 @@ namespace PostItList.Web.Services
     public class ToDoService : IToDoService
     {
         private readonly UserSettings _userSettings;
-        public ToDoService(IOptions<UserSettings> settings)
+        private readonly HttpMessageHandler _handler;
+        public ToDoService(IOptions<UserSettings> settings, HttpMessageHandler handler)
         {
             _userSettings = settings.Value;
+            _handler = handler;
+
 
         }
-        public async Task<bool> Add(ToDoItem item)
+        public async Task<Guid> Add(ToDoItem item)
         {
-            using (var client = new HttpClient())
+            if (item != null)
             {
-                client.BaseAddress = new Uri(_userSettings.APIURL);
+                using (var client = new HttpClient(_handler))
+                {
+                    client.BaseAddress = new Uri(_userSettings.APIURL);
 
-                var content = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-                //content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                var response = await client.PostAsync("values", content);
+                    var content = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+                    //content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                    var response = await client.PostAsync("values", content);
+                    var json = await response.Content.ReadAsStringAsync();
+                    var id = JsonConvert.DeserializeObject<Guid>(json);
+                    return id;
+                }
+            }
+            else
+            {
+                return default(Guid);
 
-                return response.IsSuccessStatusCode;
             }
         }
 
-        public Task<bool> Delete(ToDoItem item)
+        public async Task<bool> Delete(ToDoItem item)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient(_handler))
+            {
+                client.BaseAddress = new Uri(_userSettings.APIURL);
+                var response = await client.DeleteAsync("values/"+item.Id.ToString());
+
+                return response.IsSuccessStatusCode;
+            }
+
         }
 
-        public Task<bool> Edit(ToDoItem item)
+        public async Task<bool> Edit(ToDoItem item)
         {
-            throw new NotImplementedException();
-        }
+            if(item == null)
+            {
+                return false;
+            }
+            using (var client = new HttpClient(_handler))
+            {
+                client.BaseAddress = new Uri(_userSettings.APIURL);
+                var content = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+                //TODO take out redundant ID line
+                var response = await client.PutAsync("values/"+ item.Id.ToString(), content);
 
-        public Task<ToDoItem> Get(string title)
-        {
-            throw new NotImplementedException();
+                return response.IsSuccessStatusCode;
+                
+            }
         }
 
         public async Task<IEnumerable<ToDoItem>> GetAll()
         {
-            using (var client = new HttpClient())
+            using (var client = new HttpClient(_handler))
             {
                 client.BaseAddress = new Uri(_userSettings.APIURL);
                 var response = await client.GetAsync("values");
-                var json = await response.Content.ReadAsStringAsync();
-                var items = JsonConvert.DeserializeObject<IEnumerable<ToDoItem>>(json);
-                return items;
+                if (response.Content != null)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var items = JsonConvert.DeserializeObject<IEnumerable<ToDoItem>>(json);
+                    if (items == null)
+                    {
+                        return Enumerable.Empty<ToDoItem>();
+                    }
+                    return items;
+                }
+                return Enumerable.Empty<ToDoItem>();
             }
         }
     }
