@@ -17,87 +17,139 @@
         font-size:large;
     }
 </style>
-@foreach (var item in Model)
-{
-    <div class="well">
-    <p class="custom" >@item.Title</p> 
-        <p> <span class="list-custom">Completed:</span> @item.Completed     
-        Date Created: <input id="test" readonly="readonly" class="list-custom" value="@item.CreatedDate">    
-        <span class="list-custom">Task Due:</span> @item.DueDate
-        <button type="button" onclick="EditMode()" class="btn" style="float:right" >Edit</button>
-            @*<a asp-action="Edit" asp-route-id="@item.Title">Edit</a>*@
-        <button type="button" class="btn" style="float:right">Delete</button>
-    </p>
-        </div>
-}
+<table class="table" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Completed)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
 
-<script>
-    function EditMode() {
-        {
+        <tr>
+            <td contenteditable="false">
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td contenteditable="false">
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td contenteditable="false">
+                @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+            <td contenteditable="false">
+                @Html.DisplayFor(modelItem => item.Completed)
+            </td>
+            <td contenteditable="false">
+                <button type="button" class="glypicon glyphicon-pencil" id="update" title="Edit item" >Edit</button>
+                <button type="button" class="glyphicon glyphicon-remove" id="delete" title="Delete Item" /> 
 
-            if (document.getElementById("test").readOnly === false)
-                document.getElementById("test").readOnly = true;
-            else
-                document.getElementById("test").readOnly = false;
-
-
-        }
-
+            </td>
+        </tr>
     }
-</script>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></span>
-                <input type="text" class="form-control post-input" placeholder="Enter Post-It-List item" aria-describedby="basic-addon1">
-                <button type="button" class="btn btn-default post-button"  aria - label="Left Align">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                </button>
+       </tbody>
+</table>
+     
+    
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></span>
+                    <input type="text" class="form-control post-input" placeholder="Enter Post-It-List item" aria-describedby="basic-addon1">
+                    <button type="button" class="btn btn-default post-button" aria - label="Left Align">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@section Scripts {
-    <script>
+    @section Scripts {
+        <script>
 
-        //attach listener for enter/button click
+            //attach listener for enter/button click
 
-        //button click
-        $(document).ready(function () {
+            //button click
+            $(document).ready(function () {
 
-            function addItem() {
-                var title = $('.post-input').val();
-                var dumbTest = { "Title": $('.post-input').val(), "Id": "00000000-0000-0000-0000-000000000000", "CreatedDate": "0001-01-01T00:00:00", "DueDate": "0001-01-01T00:00:00", "Completed": false };
-                $.post({
-                    url: 'AddToDo',
-                    success: function () {
-                        //Remove in production
-                        console.log(arguments);
-                    },
-                    error: function () {
-                        //Remove in production
-                        console.log(arguments);
-                    },
-                    dataType: 'application/json',
-                    data: JSON.stringify(dumbTest)
-                    
+                function addItem() {
+                    var title = $('.post-input').val();
+                    var dumbTest = { "Title": $('.post-input').val(), "Id": "00000000-0000-0000-0000-000000000000", "CreatedDate": "0001-01-01T00:00:00", "DueDate": "0001-01-01T00:00:00", "Completed": false };
+                    $.post({
+                        url: 'AddToDo',
+                        success: function () {
+                            //Remove in production
+                            console.log(arguments);
+                        },
+                        error: function () {
+                            //Remove in production
+                            console.log(arguments);
+                        },
+                        dataType: 'application/json',
+                        data: JSON.stringify(dumbTest)
+
                         //dumbTest
-                 })
-            }
-
-            $('.post-button').click(addItem);
-            
-
-            //credit to Paolo Bergantino https://stackoverflow.com/questions/979662/how-to-detect-pressing-enter-on-keyboard-using-jquery
-            $('.post-input').keypress(function (e) {
-                if (e.which == 13) {
-                    addItem();
-                    
+                    })
                 }
 
+                $('.post-button').click(addItem);
+               
+
+
+                //credit to Paolo Bergantino https://stackoverflow.com/questions/979662/how-to-detect-pressing-enter-on-keyboard-using-jquery
+                $('.post-input').keypress(function (e) {
+                    if (e.which == 13) {
+                        addItem();
+
+                    }
+
+                });
+
+
+                //credit to isherwood https://stackoverflow.com/questions/23249130/delete-table-row-using-jquery
+                $(document).on('click', 'button.glyphicon-remove', function () {
+                    alert("This item will be deleted");
+                    $(this).closest('tr').remove();
+                    return false;
+
+                });
+
+                $('.glyphicon pencil').click(function () {
+                    var currentTD = $(this).parents('tr').find('td');
+                    if ($(this).html() == 'Edit') {
+                        currentTD = $(this).parents('tr').find('td');
+                        $.each(currentTD, function () {
+                            $(this).prop('contenteditable', true)
+
+                        });
+
+                    } else {
+                        $.each(currentTD, function () {
+                            $(this).prop('contenteditable', false)
+
+                        });
+
+                    }
+
+                    $(this).html($(this).html() == 'Edit' ? 'Save' : 'Edit')
+
+
+                });
             });
-        });
-    </script>
-}
+        </script>
+    }
