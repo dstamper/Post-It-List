@@ -61,6 +61,10 @@ namespace PostItList.Web.Services
 
         public async Task<bool> Edit(ToDoItem item)
         {
+            if(item == null)
+            {
+                return false;
+            }
             using (var client = new HttpClient(_handler))
             {
                 client.BaseAddress = new Uri(_userSettings.APIURL);
