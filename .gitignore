@@ -568,3 +568,4 @@ __pycache__/
 *.min.map
 **/wwwroot/*
 !**/wwwroot/images/
+!**/wwwroot/favicon.ico
