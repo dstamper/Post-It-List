@@ -76,7 +76,9 @@ namespace PostItList.Web.Controllers
                 }
                 else
                 {
-                    return StatusCode(201); //Created
+                    var output = new JsonResult(serviceResponse);
+                    output.StatusCode = 201;
+                    return output; //Created
                 }
             }
         }
