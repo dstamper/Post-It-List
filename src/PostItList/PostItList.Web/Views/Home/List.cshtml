@@ -38,8 +38,8 @@
     <tbody>
     @foreach (var item in Model)
     {
-
-        <tr>
+        @**class for better css *@
+        <tr class="todo-item" data-guid="@item.Id">
             <td contenteditable="false">
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
@@ -130,8 +130,7 @@
                 });
 
 
-                //NOT WORKING
-                $('.glyphicon pencil').click(function () {
+                $('.glyphicon-pencil').click(function () {
                     var currentTD = $(this).parents('tr').find('td');
                     if ($(this).html() == 'Edit') {
                         currentTD = $(this).parents('tr').find('td');
