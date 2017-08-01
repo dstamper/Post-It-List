@@ -88,7 +88,7 @@
             $(document).ready(function () {
 
                 function addItem() {
-                    var title = $('.post-input').val();
+                    //var title = $('.post-input').val();
                     var dumbTest = { "Title": $('.post-input').val(), "Id": "00000000-0000-0000-0000-000000000000", "CreatedDate": "0001-01-01T00:00:00", "DueDate": "0001-01-01T00:00:00", "Completed": false };
                     $.post({
                         url: 'AddToDo',
@@ -124,6 +124,23 @@
                 //credit to isherwood https://stackoverflow.com/questions/23249130/delete-table-row-using-jquery
                 $(document).on('click', 'button.glyphicon-remove', function () {
                     alert("This item will be deleted");
+                    var newTitle = $(this).closest('tr').find('td:eq(0)').text();
+                    console.log(newTitle);
+                    var newCreatedDate = $(this).closest('tr').find('td:eq(1)').text();
+                    console.log(newCreatedDate);
+                    var newDueDate = $(this).closest('tr').find('td:eq(2)').text();
+                    console.log(newDueDate);
+                    var newCompleted = $(this).closest('tr').find('td:eq(3)').text();
+                    console.log(newCompleted);
+                    var id = $(this).closest('tr').attr('data-guid');
+                    console.log(id);
+                    var update = { "Title": newTitle, "Id": id, "CreatedDate": newCreatedDate, "DueDate": newDueDate };
+                    $.ajax({
+                        type: "DELETE",
+                        url: "Delete",
+                        contentType: "application/json",
+                        data: JSON.stringify(update)
+                    });
                     $(this).closest('tr').remove();
                     return false;
 
@@ -149,6 +166,26 @@
 
                     $(this).html($(this).html() == 'Edit' ? 'Save' : 'Edit')
 
+
+                    
+                    var newTitle = $(this).closest('tr').find('td:eq(0)').text();
+                    console.log(newTitle);
+                    var newCreatedDate = $(this).closest('tr').find('td:eq(1)').text();
+                    console.log(newCreatedDate);
+                    var newDueDate = $(this).closest('tr').find('td:eq(2)').text();
+                    console.log(newDueDate);
+                    var newCompleted = $(this).closest('tr').find('td:eq(3)').text();
+                    console.log(newCompleted);
+                    var id = $(this).closest('tr').attr('data-guid');
+                    console.log(id);
+                    var update = { "Title": newTitle, "Id": id, "CreatedDate": newCreatedDate, "DueDate": newDueDate};
+                    $.ajax({
+                        type: "PUT",
+                        url: "Edit",
+                        contentType: "application/json",
+                        data: JSON.stringify(update)
+                    });
+                
 
                 });
             });
