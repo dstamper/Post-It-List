@@ -217,12 +217,12 @@
                 console.log(newCompleted);
                 var id = $(this).closest('tr').attr('data-guid');
                 console.log(id);
-                var update = { "Title": newTitle, "Id": id, "CreatedDate": newCreatedDate, "DueDate": newDueDate };
+                //var update = { "Title": newTitle, "Id": id, "CreatedDate": newCreatedDate, "DueDate": newDueDate };
                 $.ajax({
                     type: "DELETE",
                     url: "Delete",
                     contentType: "application/json",
-                    data: JSON.stringify(update)
+                    data: JSON.stringify(id)
                 });
                 $(this).closest('tr').remove();
                 return false;

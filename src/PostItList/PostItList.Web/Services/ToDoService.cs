@@ -47,12 +47,12 @@ namespace PostItList.Web.Services
             }
         }
 
-        public async Task<bool> Delete(ToDoItem item)
+        public async Task<bool> Delete(Guid item)
         {
             using (var client = new HttpClient(_handler))
             {
                 client.BaseAddress = new Uri(_userSettings.APIURL);
-                var response = await client.DeleteAsync("values/"+item.Id.ToString());
+                var response = await client.DeleteAsync("values/"+item.ToString());
 
                 return response.IsSuccessStatusCode;
             }
