@@ -111,9 +111,9 @@
 
             $("#datepicker").datepicker();
             $('.btn-primary').click(hideAddInfo);
-            $('#add-button').click(addItemPrototype);
+            $('#add-button').click(addItem);
 
-            function addItemPrototype() {
+            function addItem() {
                 var taskTitle = $('#task-title').val();
                 var currentDate = $('#datepicker').datepicker('getDate');
                 if (currentDate == undefined) {
@@ -124,7 +124,7 @@
                     currentDate = currentDate.toISOString();
 
                 }
-                var dumbTest = {
+                var addedTask = {
                     "Title": taskTitle,
                     "Id": "00000000-0000-0000-0000-000000000000",
                     "CreatedDate": "0001-01-01T00:00:00",
@@ -143,7 +143,7 @@
                         console.log(arguments);
                     },
                     dataType: 'json',
-                    data: JSON.stringify(dumbTest)
+                    data: JSON.stringify(addedTask)
                 })
             }
 
@@ -186,7 +186,7 @@
             //credit to Paolo Bergantino https://stackoverflow.com/questions/979662/how-to-detect-pressing-enter-on-keyboard-using-jquery
             $('.form-control').keypress(function (e) {
                 if (e.which == 13) {
-                    addItemPrototype();
+                    addItem();
                 }
 
             });
