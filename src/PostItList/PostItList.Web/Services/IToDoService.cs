@@ -12,7 +12,7 @@ namespace PostItList.Web.Services
         Task<Guid> Add(ToDoItem item);
         Task<IEnumerable<ToDoItem>> GetAll();
         Task<bool> Edit(ToDoItem item);
-        Task<bool> Delete(ToDoItem item);
+        Task<bool> Delete(Guid item);
         
     }
 }

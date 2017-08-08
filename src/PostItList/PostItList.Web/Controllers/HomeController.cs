@@ -116,9 +116,9 @@ namespace PostItList.Web.Controllers
             using (var reader = new StreamReader(Request.Body))
             {
                 var json = reader.ReadToEnd();
-                var item = JsonConvert.DeserializeObject<ToDoItem>(json);
+                var item = JsonConvert.DeserializeObject<Guid>(json);
 
-                if(item == null || item.Id == default(Guid))
+                if(item == null || item == default(Guid))
                 {
                     return BadRequest(); //400 error bad request
                 }
