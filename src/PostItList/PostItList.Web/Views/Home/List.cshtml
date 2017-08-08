@@ -84,9 +84,12 @@
         <div class="input-group-lg ">
             <input type="text" class="form-control" id="task-title" placeholder="Task Title">
         </div>
+        <button type="button" class="btn btn-default btn-lg date-option">
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Due Date
+        </button>
     </div>
     <div class="panel-body">
-        <div class="input-group-lg ">
+        <div class="input-group-lg date-panel hidden">
             <label for="datepicker">Due Date</label>
             <input type="text" id="datepicker" class="form-control">
         </div>
@@ -113,8 +116,18 @@
             $('.btn-primary').click(hideAddInfo);
             $('#add-button').click(addItem);
 
+
+            $('.date-option').click(function () {
+                $('.date-panel').toggleClass('hidden');
+                console.log("Click called");
+            })
+    
+
             function addItem() {
                 var taskTitle = $('#task-title').val();
+                if (taskTitle === '') {
+                    return;
+                }
                 var currentDate = $('#datepicker').datepicker('getDate');
                 if (currentDate == undefined) {
                     currentDate = "0001-01-01T00:00:00"
@@ -170,7 +183,9 @@
                     "<button type='button' class='glyphicon glyphicon-remove' id='delete' title='Delete Item' /> </td >";
                 
                 $('tbody').append(output);
-                
+                $('#datepicker').val('');
+                $('.date-panel').toggleClass('hidden');
+                $('#task-title').val('');
 
             }
 
