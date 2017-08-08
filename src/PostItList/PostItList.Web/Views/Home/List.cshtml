@@ -241,11 +241,7 @@
             $(document).on('click', '.glyphicon-pencil', function () {
                 var currentTD = $(this).parents('tr').find('td');
                 if ($(this).html() == 'Edit') {
-                    //currentTD = $(this).parents('tr').find('td');
-                    
-                    //$.each(currentTD, function () {
-                        
-                    //    $(this).prop('contenteditable', true)
+                
 
                     //make title editable
                     $(this).closest('tr').find('td:eq(0)').prop('contenteditable', true);
@@ -253,6 +249,7 @@
                     //make duedate editable
                     $(this).closest('tr').find('td:eq(2)').prop('contenteditable', true);
 
+                    //make checkbox editable
                     $(this).parents('tr').find('td:eq(3)').find('.form-check-input').prop("disabled", false); 
 
                     
@@ -289,11 +286,15 @@
 
 
                 console.log('new due date:' + newDueDate);
-                var newCompleted = $(this).closest('tr').find('td:eq(3)').text();
+                var newCompleted;
+                if ($(this).parents('tr').find('td:eq(3)').find('.form-check-input').is(':checked'))
+                    newCompleted = true;
+                else
+                    newCompleted = false;
                 console.log(newCompleted);
                 var id = $(this).closest('tr').attr('data-guid');
                 console.log(id);
-                var update = { "Title": newTitle, "Id": id, "CreatedDate": newCreatedDate.toISOString(), "DueDate": newDueDate };
+                var update = { "Title": newTitle, "Id": id, "CreatedDate": newCreatedDate.toISOString(), "DueDate": newDueDate, "Completed": newCompleted };
                 $.ajax({
                     type: "PUT",
                     url: "Edit",
