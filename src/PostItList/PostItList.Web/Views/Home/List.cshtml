@@ -55,8 +55,16 @@
                         <p>@item.DueDate.Month/@item.DueDate.Day/@item.DueDate.Year </p>
                     }
                 </td>
-                <td contenteditable="false">
-                    @Html.DisplayFor(modelItem => item.Completed)
+                <td contenteditable="false" >
+                    @if (item.Completed == true)
+                    {
+                        <input class="form-check-input" type="checkbox" checked value="true" disabled  >
+
+                    }
+                    else { 
+
+                        <input class="form-check-input" type="checkbox" value="false" disabled >
+                    }
                 </td>
                 <td contenteditable="false">
                     <button type="button" class="glypicon glyphicon-pencil" id="update" title="Edit item">Edit</button>
@@ -177,9 +185,9 @@
                 var createdDate = (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear();
 
                 var output = "<tr class='todo-item' data-guid=" + guid + "> <td contenteditable='false'>" + taskTitle + "</td> <td contenteditable='false'>" + createdDate +
-                    "</td> <td contenteditable='false'>" + dueDate + "</td> <td contenteditable='false'><input class='check-box' disabled='disabled' type='checkbox'> </td>" +
+                    "</td> <td contenteditable='false'>" + dueDate + "</td> <td contenteditable='false'><input class='form-check-input' disabled='disabled' type='checkbox'> </td>" +
                     "<td contenteditable='false'>" +
-                    "<button type='button' class='glypicon glyphicon-pencil' id='update' title= 'Edit item' > Edit</button >" +
+                    "<button type='button' class='glypicon glyphicon-pencil' id='update' title= 'Edit item' >Edit</button >" +
                     "<button type='button' class='glyphicon glyphicon-remove' id='delete' title='Delete Item' /> </td >";
                 
                 $('tbody').append(output);
@@ -210,15 +218,14 @@
             //credit to isherwood https://stackoverflow.com/questions/23249130/delete-table-row-using-jquery
             $(document).on('click', 'button.glyphicon-remove', function () {
                 var newTitle = $(this).closest('tr').find('td:eq(0)').text();
-                console.log(newTitle);
+
                 var newCreatedDate = $(this).closest('tr').find('td:eq(1)').text();
-                console.log(newCreatedDate);
+
                 var newDueDate = $(this).closest('tr').find('td:eq(2)').text();
-                console.log(newDueDate);
+
                 var newCompleted = $(this).closest('tr').find('td:eq(3)').text();
-                console.log(newCompleted);
+                
                 var id = $(this).closest('tr').attr('data-guid');
-                console.log(id);
                 //var update = { "Title": newTitle, "Id": id, "CreatedDate": newCreatedDate, "DueDate": newDueDate };
                 $.ajax({
                     type: "DELETE",
@@ -231,19 +238,32 @@
 
             });
 
-
-            $('.glyphicon-pencil').click(function () {
+            $(document).on('click', '.glyphicon-pencil', function () {
                 var currentTD = $(this).parents('tr').find('td');
                 if ($(this).html() == 'Edit') {
-                    currentTD = $(this).parents('tr').find('td');
-                    $.each(currentTD, function () {
-                        $(this).prop('contenteditable', true)
+                    //currentTD = $(this).parents('tr').find('td');
+                    
+                    //$.each(currentTD, function () {
+                        
+                    //    $(this).prop('contenteditable', true)
 
-                    });
+                    //make title editable
+                    $(this).closest('tr').find('td:eq(0)').prop('contenteditable', true);
+
+                    //make duedate editable
+                    $(this).closest('tr').find('td:eq(2)').prop('contenteditable', true);
+
+                    $(this).parents('tr').find('td:eq(3)').find('.form-check-input').prop("disabled", false); 
+
+                    
+
+                    //});
 
                 } else {
                     $.each(currentTD, function () {
                         $(this).prop('contenteditable', false)
+                        $(this).parents('tr').find('td:eq(3)').find('.form-check-input').prop("disabled", true); 
+
 
                     });
 
@@ -255,15 +275,25 @@
 
                 var newTitle = $(this).closest('tr').find('td:eq(0)').text();
                 console.log(newTitle);
-                var newCreatedDate = $(this).closest('tr').find('td:eq(1)').text();
-                console.log(newCreatedDate);
-                var newDueDate = $(this).closest('tr').find('td:eq(2)').text();
-                console.log(newDueDate);
+                var newCreatedDate = new Date($(this).closest('tr').find('td:eq(1)').text());
+                console.log('new created date:' + newCreatedDate);
+
+                var inputDate = $(this).closest('tr').find('td:eq(2)').text().trim();
+                var newDueDate;
+                console.log("The |" + inputDate + "|");
+                if (inputDate == undefined || inputDate === '') {
+                    newDueDate = '0001-01-01T00:00:00';
+                } else {
+                    newDueDate = new Date(inputDate);
+                }
+
+
+                console.log('new due date:' + newDueDate);
                 var newCompleted = $(this).closest('tr').find('td:eq(3)').text();
                 console.log(newCompleted);
                 var id = $(this).closest('tr').attr('data-guid');
                 console.log(id);
-                var update = { "Title": newTitle, "Id": id, "CreatedDate": newCreatedDate, "DueDate": newDueDate };
+                var update = { "Title": newTitle, "Id": id, "CreatedDate": newCreatedDate.toISOString(), "DueDate": newDueDate };
                 $.ajax({
                     type: "PUT",
                     url: "Edit",
