@@ -30,7 +30,7 @@ After following these instructions your browser should pop-up and you can naviga
 
 ## How to Use PostitList
 
-To use the deployed version of the project go to postitlist.com.
+To use the deployed version of the project go to http://postitlist.com.
 
 Once at the website you will be at a home page with 3 tabs: List, About, Contact. The List tab is where you can create your own to do list. When you first get to the page, there will be two example items to show what the list will look like. You can delete these by clicking the X button to the right of the items. To add something to the list, click Add at the bottom of the page. You can then type in a title of your choosing and an optional due date for the task. Once finished click Add to List. 
 
