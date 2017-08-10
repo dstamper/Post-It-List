@@ -28,7 +28,7 @@ For this project we are using Visual Studio as an environment for testing and ru
 After following these instructions your browser should pop-up and you can navigate the PostitList website.
 
 
-# How to Use PostitList
+## How to Use PostitList
 
 To use the deployed version of the project go to postitlist.com.
 
