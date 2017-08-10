@@ -1,7 +1,7 @@
 /* Copyright(c) 2017 Jonathan Jensen, David Stamper
-This work is available under the "MIT license".
-Please see the file COPYING in this distribution
-for license terms.*/
+    This work is available under the "MIT license".
+    Please see the file LICENSE in the PostItList Github
+    for license terms.*/
 using System;
 using System.Linq;
 using Microsoft.Extensions.Options;
