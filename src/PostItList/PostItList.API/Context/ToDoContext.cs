@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿/* Copyright(c) 2017 Jonathan Jensen, David Stamper
+    This work is available under the "MIT license".
+    Please see the file LICENSE in the PostItList Github
+    for license terms.*/
+using Microsoft.EntityFrameworkCore;
 using PostItList.Models;
 using System;
 using System.Collections.Generic;

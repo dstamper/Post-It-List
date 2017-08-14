@@ -1,8 +1,16 @@
-﻿@model IEnumerable<PostItList.Models.ToDoItem>
+﻿@*Copyright (c) 2017 Jonathan Jensen, David Stamper
+    This work is available under the "MIT license".
+    Please see the file LICENSE in the PostItList Github
+    for license terms.*@
+@model IEnumerable<PostItList.Models.ToDoItem>
 @{
     ViewData["Title"] = "About";
+    ViewData["Message"] = "About the Project";
 }
 <h2>@ViewData["Title"].</h2>
 <h3>@ViewData["Message"]</h3>
 
-<p>Use this area to provide additional information.</p>
+<p>PostitList is an Open Source to-Do list project under the MIT license.</p>
+<p> This task manager allows someone to keep track of tasks, update tasks and delete tasks. </p>
+<p>This project uses an ASP.NET and Entity framework while also using javascript mixed with jquery for the front-end.</p>
+<p>Because this is an open source project, you are welcome to contribute to this project. Go to the Contact page to learn how!</p>
