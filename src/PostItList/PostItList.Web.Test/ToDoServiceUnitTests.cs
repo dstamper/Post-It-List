@@ -119,12 +119,14 @@ namespace PostItList.Web.Test
             IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreaseMessageHandler());
 
             var item = new ToDoItem();
+            var item2 = new ToDoItem();
+            item.Id = Guid.NewGuid();
 
             // act
             await service.Add(item);
-            await service.Add(item);
+            await service.Add(item2);
             var countBefore = (await service.GetAll()).Count();
-            await service.Delete(item);
+            await service.Delete(item.Id);
             var afterCount = (await service.GetAll()).Count();
 
             // assert
@@ -139,9 +141,10 @@ namespace PostItList.Web.Test
             IToDoService service = new ToDoService(mockOptions.Object, new IncreaseDecreaseMessageHandler());
 
             var item = new ToDoItem();
+            item.Id = Guid.NewGuid();
 
             // act
-            await service.Delete(item);
+            await service.Delete(item.Id);
             var afterCount = (await service.GetAll()).Count();
 
             // assert
