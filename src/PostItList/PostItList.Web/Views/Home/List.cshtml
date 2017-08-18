@@ -4,9 +4,9 @@
     for license terms.*@
 @model IEnumerable<PostItList.Models.ToDoItem>
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "Your list items";
 }
-<h2>@ViewData["Title"].</h2>
+<h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
 
 
@@ -119,9 +119,7 @@
 @section Scripts {
     <script>
 
-        //attach listener for enter/button click
 
-        //button click
         $(document).ready(function () {
 
             $("#datepicker").datepicker();
@@ -131,7 +129,6 @@
 
             $('.date-option').click(function () {
                 $('.date-panel').toggleClass('hidden');
-                console.log("Click called");
             })
     
 
@@ -159,13 +156,10 @@
                 $.post({
                     url: 'AddToDo',
                     success: function (data) {
-                        //Remove in production
                         appendTask(data);
-                        console.log(data)
                     },
                     error: function () {
-                        //Remove in production
-                        console.log(arguments);
+                        console.log('AddToDo error');
                     },
                     dataType: 'json',
                     data: JSON.stringify(addedTask)
@@ -275,13 +269,11 @@
 
 
                 var newTitle = $(this).closest('tr').find('td:eq(0)').text();
-                console.log(newTitle);
                 var newCreatedDate = new Date($(this).closest('tr').find('td:eq(1)').text());
-                console.log('new created date:' + newCreatedDate);
-
+ 
                 var inputDate = $(this).closest('tr').find('td:eq(2)').text().trim();
                 var newDueDate;
-                console.log("The |" + inputDate + "|");
+
                 if (inputDate == undefined || inputDate === '') {
                     newDueDate = '0001-01-01T00:00:00';
                 } else {
@@ -289,15 +281,15 @@
                 }
 
 
-                console.log('new due date:' + newDueDate);
+
                 var newCompleted;
                 if ($(this).parents('tr').find('td:eq(3)').find('.form-check-input').is(':checked'))
                     newCompleted = true;
                 else
                     newCompleted = false;
-                console.log(newCompleted);
+
                 var id = $(this).closest('tr').attr('data-guid');
-                console.log(id);
+
                 var update = { "Title": newTitle, "Id": id, "CreatedDate": newCreatedDate.toISOString(), "DueDate": newDueDate, "Completed": newCompleted };
                 $.ajax({
                     type: "PUT",

@@ -2,6 +2,13 @@
     This work is available under the "MIT license".
     Please see the file LICENSE in the PostItList Github
     for license terms.*/
+
+
+/* ToDoService purpose -
+ * This service handles requests from the web client to make speak to the API. This feature might seem redundant in the current implementation, but the goal
+ * is you could quickly implement complex features for the web client. 
+ * For instance, you could quickly set up a tutorial system, adding preset tasks or events among other things */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

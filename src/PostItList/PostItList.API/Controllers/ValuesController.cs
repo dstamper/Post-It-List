@@ -27,13 +27,6 @@ namespace PostItList.API.Controllers
         [HttpGet]
         public IEnumerable<ToDoItem> Get()
         {
-            if (_context.Items.Count() == 0)
-            {
-                var item1 = new ToDoItem { Title = "Item1" };
-                var item2 = new ToDoItem { Title = "Item2" };
-                return new[] { item1, item2 };
-            }
-
             return _context.Items.ToArray();
         }
 

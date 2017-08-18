@@ -2,6 +2,12 @@
     This work is available under the "MIT license".
     Please see the file LICENSE in the PostItList Github
     for license terms.*/
+
+
+/* HomeController Purpose -
+ * The web controller is responsible for handling input from javascript ajax calls in the front end, as well as determining the correct statuscode to send to the front end
+ * These all call the web service to do the work */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
