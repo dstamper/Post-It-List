@@ -21,6 +21,8 @@ For this project we are using Visual Studio as an environment for testing and ru
   * Go to Properties
   * Change the Environement variables so that Name is ASPNETCORE_ENVIRONMENT and Value is Development
   * Change the App URL to http://localhost:5001/
+* Currently jquery-ui isn't included in the project on github, so jquery-ui-1.12.1 will need to be installed in the following filepath:  wwwwroot/lib/jquery-ui-1.12.1
+  * https://jqueryui.com/
 * Right click PostitList.API
   * Click Debug -> Start new instance
 * At the top of the page go to Debug -> Start Without Debugging
